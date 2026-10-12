@@ -1,0 +1,67 @@
+/* ============================================================
+   共享令牌 · app/shared/theme-tokens.css
+   只放「不随皮肤变」的东西：字体、字号、版面、动效曲线。
+   颜色（底色/文字/五色/阴影/纹理）全部在 skins.css 里，
+   由 data-skin 决定。这里保留一条兜底，防止 skin 属性缺失时全屏透明。
+   ============================================================ */
+
+:root,
+html[data-skin], body[data-skin] {
+
+  /* ---- 字体 ---- */
+  --font-ui: system-ui, -apple-system, "PingFang SC", "HarmonyOS Sans SC",
+             "Microsoft YaHei UI", "Segoe UI", sans-serif;
+  --font-kai: KaiTi, STKaiti, "Kaiti SC", "楷体", "楷体_GB2312", KaiTi_GB2312, TW-Kai, serif;
+  /* 行楷：楷体的行书写法，笔意连贯；瘦金体保留在链尾，装了的系统仍能吃到 */
+  --font-xing: "STXingkai", "华文行楷", "FZYingKai", "FZXingKai", "方正行楷", "行楷",
+               "FZShouJinTi", "HYShouJinShuJ", "汉仪瘦金书简", "瘦金体", var(--font-kai);
+  /* 隶书：蚕头燕尾，横扁厚重，与楷体反差明显 */
+  --font-li: LiSu, "STLiti", "华文隶书", "隶书", "FZLanTi", "方正隶书", var(--font-kai);
+  /* 仿宋：笔画瘦硬挺拔，最接近瘦金体的"瘦"，但偏印刷体 */
+  --font-fang: FangSong, "STFangsong", "华文仿宋", "仿宋", "仿宋_GB2312", var(--font-kai);
+  --font-content: var(--font-ui);
+
+  /* ---- 版面 ---- */
+  --r-card: 18px;      /* 卡片圆角（悬浮窗） */
+  --r-item: 11px;      /* 条目圆角 */
+  --r-sm: 8px;         /* 控件圆角（计划页沿用） */
+  --gap: 14px;         /* 区块间距（计划页顶栏沿用） */
+  --ease: cubic-bezier(0.16, 0.84, 0.44, 1);
+
+  /* ---- 兜底色（skin 属性缺失时用，不覆盖任何有效皮肤） ---- */
+  --bg: #F4F2EE;
+  --panel: #FFFDF9;
+  --card-rgb: 250, 247, 242;
+  --bg-a: 0.72;
+  --blur: 26px;
+  --ink: #2F3138;
+  --ink-2: #5C616B;
+  --ink-3: #8B9099;
+  --accent: #3A6489;
+  --line: #E2DCD2;
+  --dai: #33587C;
+  --tai: #467A4E;
+  --ou: #6D4C85;
+  --tong: #8F6432;
+  --zhu: #953F37;
+  --grain: 0.035;
+  --is-dark: 0;
+}
+
+/* 计划页卡片用的是 --c-dai 这类别名，指向当前皮肤的五色 */
+:root,
+html[data-skin], body[data-skin] {
+  --c-dai: var(--dai);
+  --c-tai: var(--tai);
+  --c-ou:  var(--ou);
+  --c-tong: var(--tong);
+  --c-zhu:  var(--zhu);
+}
+
+/* 字体：悬浮窗作用在 body[data-font]，计划页作用在 html[data-font]，两边都覆盖 */
+html[data-font="kai"],  body[data-font="kai"]  { --font-content: var(--font-kai); }
+html[data-font="xing"], body[data-font="xing"] { --font-content: var(--font-xing); }
+html[data-font="li"],   body[data-font="li"]   { --font-content: var(--font-li); }
+html[data-font="fang"], body[data-font="fang"] { --font-content: var(--font-fang); }
+/* 旧值 jin（瘦金）已并入行楷字链，这里保留映射避免历史数据失效 */
+html[data-font="jin"],  body[data-font="jin"]  { --font-content: var(--font-xing); }

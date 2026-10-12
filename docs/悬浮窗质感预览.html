@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<title>悬浮窗质感预览 · 不透明度 / 毛玻璃 / 纸张噪点</title>
+<link rel="stylesheet" href="../app/shared/theme-tokens.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-ui); background: #101216; color: #E6E8EC;
+    padding: 26px 30px 40px; min-height: 100vh;
+  }
+  h1 { font-size: 17px; margin-bottom: 5px; }
+  .sub { font-size: 12px; color: #9AA1AC; margin-bottom: 20px; line-height: 1.7; }
+
+  /* 花哨底图：不透明度和毛玻璃只有在有内容的背景上才看得出来 */
+  .stage {
+    position: relative; height: 260px; border-radius: 14px; overflow: hidden;
+    background:
+      repeating-linear-gradient(45deg, #E8552F 0 26px, #F2B705 26px 52px),
+      linear-gradient(120deg, #2A6F97, #61A5C2);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+    display: flex; align-items: stretch; gap: 16px; padding: 16px;
+  }
+  .stage::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 18% 22%, #FF006E 0 42px, transparent 43px),
+      radial-gradient(circle at 72% 68%, #00F5D4 0 52px, transparent 53px),
+      radial-gradient(circle at 88% 18%, #FFD166 0 34px, transparent 35px);
+  }
+
+  /* ==== 与悬浮窗 .card 完全一致的三层：底色 + 毛玻璃 + 噪点 ==== */
+  .card {
+    position: relative; flex: 1 1 0; border-radius: var(--r-card);
+    padding: 14px 16px; overflow: hidden;
+    background:
+      linear-gradient(160deg, rgba(255,255,255,0.42) 0%, transparent 46%),
+      rgba(var(--card-rgb), var(--bg-a));
+    backdrop-filter: blur(var(--blur)) saturate(150%);
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+    box-shadow: var(--shadow), var(--inset);
+    border: 1px solid var(--edge-light);
+    outline: 1px solid var(--hairline-2); outline-offset: -1px;
+    color: var(--ink); font-size: 13px; line-height: 1.6;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    pointer-events: none; z-index: 5; opacity: var(--grain);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+    background-size: 140px 140px; mix-blend-mode: multiply;
+  }
+  .dusk { --card-rgb: 26, 28, 33; --ink: #E6E8EC; --ink-2: #AFB5BF; --edge-light: rgba(255,255,255,.13); }
+  .dusk .card::after { mix-blend-mode: overlay; }
+  html[data-blur-off="1"] .card { backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+  .card h3 { font-size: 13.5px; font-weight: 600; margin-bottom: 8px; }
+  .card p { font-size: 12px; color: var(--ink-2); }
+  .card .row { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 11.5px; color: var(--ink-3); }
+  .card .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c-dai); }
+
+  /* ==== 控制台 ==== */
+  .panel { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 18px 30px; align-items: flex-start; }
+  .ctl { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+  .ctl label { width: 74px; color: #C7CDD6; }
+  .ctl input[type=range] { width: 168px; accent-color: #7FA3C4; }
+  .ctl .val { min-width: 44px; color: #FFD166; font-variant-numeric: tabular-nums; }
+  .presets { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .presets button {
+    font: inherit; font-size: 12px; padding: 5px 12px; border-radius: 99px; cursor: pointer;
+    background: rgba(255,255,255,.08); color: #E6E8EC; border: 1px solid rgba(255,255,255,.18);
+  }
+  .presets button:hover { background: rgba(255,255,255,.16); }
+  .note { margin-top: 18px; font-size: 11.5px; color: #7C838F; line-height: 1.8; }
+</style>
+</head>
+<body>
+  <h1>悬浮窗质感预览</h1>
+  <p class="sub">底图特意做得花，这样「不透明度」和「毛玻璃」才看得出差别。拖动下面的滑块，上面两张卡片会实时跟着变。<br>左：宣纸（浅色）　右：暮色（深色）</p>
+
+  <div class="stage">
+    <div class="card">
+      <h3>桌边 · 备忘</h3>
+      <p>把备忘录开发完成</p>
+      <div class="row"><span class="dot"></span>09:00–11:00</div>
+      <div class="row">学习 · 去超市采购</div>
+    </div>
+    <div class="card dusk">
+      <h3>桌边 · 备忘</h3>
+      <p>把备忘录开发完成</p>
+      <div class="row"><span class="dot"></span>09:00–11:00</div>
+      <div class="row">学习 · 去超市采购</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ctl">
+      <label for="alpha">不透明度</label>
+      <input type="range" id="alpha" min="20" max="100" step="5" value="90">
+      <span class="val" id="alphaVal">90%</span>
+    </div>
+    <div class="ctl">
+      <label for="blur">毛玻璃</label>
+      <input type="range" id="blur" min="0" max="44" step="2" value="26">
+      <span class="val" id="blurVal">26px</span>
+    </div>
+    <div class="ctl">
+      <label for="grain">纸张噪点</label>
+      <input type="range" id="grain" min="0" max="100" step="5" value="35">
+      <span class="val" id="grainVal">35</span>
+    </div>
+  </div>
+
+  <div class="presets">
+    <button data-a="100" data-b="26" data-g="35">完全不透明</button>
+    <button data-a="20"  data-b="26" data-g="35">接近全透明</button>
+    <button data-a="90"  data-b="0"  data-g="35">毛玻璃关</button>
+    <button data-a="90"  data-b="44" data-g="35">毛玻璃最强</button>
+    <button data-a="90"  data-b="26" data-g="0">噪点关</button>
+    <button data-a="90"  data-b="26" data-g="100">噪点最强</button>
+    <button data-a="35"  data-b="44" data-g="80">三项叠加</button>
+  </div>
+
+  <p class="note">这页用的是悬浮窗同一份视觉令牌（theme-tokens.css）和同一段卡片样式，滑块走的是和设置面板一样的取值区间：<br>
+  不透明度 20–100 → <code>--bg-a</code>（0.20–1.00）　毛玻璃 0–44 → <code>--blur</code>（0 时整条 backdrop-filter 关掉）　纸张噪点 0–100 → <code>--grain</code>（0–0.10）</p>
+
+<script>
+  const root = document.documentElement;
+  const els = { alpha: $('alpha'), blur: $('blur'), grain: $('grain') };
+  function $(id) { return document.getElementById(id); }
+
+  // 与 app/widget/renderer.js 的 applyTexture() 同一套换算
+  function apply() {
+    const a = +els.alpha.value, b = +els.blur.value, g = +els.grain.value;
+    root.style.setProperty('--bg-a', String(a / 100));
+    root.style.setProperty('--blur', b + 'px');
+    root.style.setProperty('--grain', String(g / 1000));
+    root.dataset.blurOff = b === 0 ? '1' : '0';
+    $('alphaVal').textContent = a + '%';
+    $('blurVal').textContent = b === 0 ? '关' : b + 'px';
+    $('grainVal').textContent = g === 0 ? '关' : String(g);
+  }
+  Object.values(els).forEach(e => e.addEventListener('input', apply));
+  document.querySelectorAll('.presets button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      els.alpha.value = btn.dataset.a; els.blur.value = btn.dataset.b; els.grain.value = btn.dataset.g;
+      apply();
+    });
+  });
+  apply();
+</script>
+</body>
+</html>

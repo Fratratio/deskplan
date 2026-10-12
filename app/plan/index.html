@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN" data-skin="rice" data-font="kai">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>桌边 DeskPlan · 周计划</title>
+<!-- 共享视觉令牌：与悬浮小方框同一套配色/字体 -->
+<link rel="stylesheet" href="../shared/theme-tokens.css" />
+<link rel="stylesheet" href="../shared/skins.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="mark" aria-hidden="true"></span>
+    <h1>周计划备忘录</h1>
+    <span class="badge-free">全部功能免费 · 无会员 · 数据仅存本机</span>
+  </div>
+
+  <div class="weeknav">
+    <button id="prevWeek" class="icon" title="上一周（←）">‹</button>
+    <button id="thisWeek" class="ghost">本周</button>
+    <button id="nextWeek" class="icon" title="下一周（→）">›</button>
+    <span id="weekRange" class="weekrange"></span>
+    <button id="copyLast" class="ghost" title="把上一周的安排复制到本周">复制上周</button>
+  </div>
+
+  <div class="tools">
+    <span id="clock" class="clock" title="当前时间" aria-label="当前时间"></span>
+    <div class="searchbox">
+      <input id="search" type="search" placeholder="搜索标题 / 备注 / 标签" autocomplete="off">
+      <div id="searchResults" class="results" hidden></div>
+    </div>
+    <!-- 窗口切换：日历 ↔ 悬浮小方框。只叫出对方，不关闭自己 -->
+    <button id="toggleWidget" class="ghost" title="显示 / 收起桌面右侧的小方块">小方块</button>
+    <button id="openSettings" class="ghost">外观与设置</button>
+  </div>
+</header>
+
+<nav class="tagbar">
+  <div id="tagList" class="taglist"></div>
+  <div id="stats" class="stats"></div>
+</nav>
+
+<div class="mtabs" role="tablist">
+  <button class="mtab is-on" data-view="plan">计划</button>
+  <button class="mtab" data-view="todo">待办</button>
+</div>
+
+<main class="layout">
+
+  <section class="plan-pane">
+    <div id="dayChips" class="daychips" hidden></div>
+    <div class="grid-scroll">
+      <div id="grid" class="grid"></div>
+    </div>
+    <!-- 底部状态栏：今日 / 本周完成度 + 接下来要做的事（提示文字弱化，悬停看全文） -->
+    <div class="statusbar" id="statusBar">
+      <span class="sb-item" id="sbToday" title="今日完成进度"></span>
+      <span class="sb-item" id="sbWeek" title="本周完成进度"></span>
+      <span class="sb-next" id="sbNext" title="接下来的安排"></span>
+      <span class="sb-hint" title="点空格新建 · 拖卡片改期 · 拖卡片上下边缘改时长 · 待办可直接拖进网格排期 · 快捷键 N 新建 / T 回本周 / ←→ 切周">空格新建 · 拖动改期 · N 新建 / T 回本周 / ←→ 切周</span>
+    </div>
+  </section>
+
+  <aside class="side">
+    <!-- 收起后只剩这一条竖向小条，点它展开 -->
+    <button class="side-mini" id="sideMini" title="展开待办与时间统计">
+      <span class="side-mini-txt">待办</span>
+      <span class="side-mini-num" id="sideMiniNum">0</span>
+      <span class="side-mini-caret" aria-hidden="true">‹</span>
+    </button>
+
+    <div class="side-body">
+    <div class="side-head">
+      <h2>待办清单</h2>
+      <span class="muted">没定时间的事先收在这</span>
+      <button class="side-toggle" id="sideToggle" title="收起面板，时间网格占满宽度" aria-label="收起面板">›</button>
+    </div>
+    <div class="todo-add">
+      <input id="todoInput" placeholder="加一条，回车即可（可用 #标签）" maxlength="80">
+      <button id="todoAdd" class="primary">添加</button>
+    </div>
+    <div id="todoList" class="todolist"></div>
+    <div id="todoDoneWrap" class="donewrap" hidden>
+      <div class="donehead"><span id="doneCount"></span><button id="clearDone" class="link">清除已完成</button></div>
+      <div id="todoDone" class="todolist is-done"></div>
+    </div>
+    <div id="statPanel" class="statpanel"></div>
+    </div><!-- /side-body -->
+
+    <!-- 右下角补白：今日概览 + 距下个安排（安静的临近度指示） -->
+    <div id="overviewPanel" class="overview"></div>
+  </aside>
+
+</main>
+
+<!-- 新建 / 编辑 -->
+<div id="editorModal" class="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2 id="edTitle">新建备忘</h2>
+      <button class="x" data-close aria-label="关闭">✕</button>
+    </div>
+    <label class="fld">标题
+      <input id="fTitle" class="mf" maxlength="60" placeholder="要做的事">
+    </label>
+    <label class="fld">备注
+      <textarea id="fNote" class="mf" rows="3" placeholder="细节、地点、链接……"></textarea>
+    </label>
+    <div class="row">
+      <label class="fld">日期<input id="fDate" type="date"></label>
+      <label class="fld">开始<select id="fStart"></select></label>
+      <label class="fld">时长<select id="fDur"></select></label>
+    </div>
+    <label class="fld">标签（空格或逗号分隔）
+      <input id="fTags" placeholder="工作 生活 学习">
+    </label>
+    <div class="fld">颜色
+      <div id="fColors" class="colors"></div>
+    </div>
+    <div class="modal-foot">
+      <button id="edDelete" class="danger" hidden>删除</button>
+      <span class="spacer"></span>
+      <button id="edCancel" class="ghost">取消</button>
+      <button id="edSave" class="primary">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 详情 -->
+<div id="detailModal" class="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2 id="dTitle" class="mf"></h2>
+      <button class="x" data-close aria-label="关闭">✕</button>
+    </div>
+    <div id="dMeta" class="meta"></div>
+    <div id="dTags" class="tags"></div>
+    <div id="dNote" class="note mf"></div>
+    <div class="modal-foot">
+      <button id="dDelete" class="danger">删除</button>
+      <span class="spacer"></span>
+      <button id="dDone" class="ghost">标记完成</button>
+      <button id="dEdit" class="primary">编辑</button>
+    </div>
+  </div>
+</div>
+
+<!-- 设置 -->
+<div id="settingsModal" class="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>设置</h2>
+      <button class="x" data-close aria-label="关闭">✕</button>
+    </div>
+
+    <!-- 外观：皮肤 + 字体。改造前只有两个下拉框，且要打开设置弹层才够得着；
+         现在把皮肤做成和小方块一样的色板网格，选中即刻生效，不用「应用」按钮。 -->
+    <div class="row row-appear">
+      <div class="fld fld-block">
+        <span class="fld-label">皮肤</span>
+        <div class="skin-grid" id="skinGrid"></div>
+      </div>
+      <div class="fld fld-block">
+        <span class="fld-label">备忘字体</span>
+        <div class="seg" id="fontSeg">
+          <button data-font="default">黑体</button>
+          <button data-font="kai">楷体</button>
+          <button data-font="xing">行楷</button>
+          <button data-font="li">隶书</button>
+          <button data-font="fang">仿宋</button>
+        </div>
+        <p class="hint hint-inline">改这里会同时作用到桌面上的小方块，两边永远一致。</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="fld">显示起始<select id="sStart"></select></label>
+      <label class="fld">显示结束<select id="sEnd"></select></label>
+      <label class="fld">行高<select id="sHourH">
+        <option value="36">紧凑</option><option value="44">标准</option><option value="56">宽松</option>
+      </select></label>
+      <label class="fld">吸附粒度<select id="sSnap">
+        <option value="5">5 分钟</option><option value="10">10 分钟</option>
+        <option value="15">15 分钟</option><option value="30">30 分钟</option><option value="60">60 分钟</option>
+      </select></label>
+    </div>
+    <p class="hint">「显示起始」设为 00:00 即完整 24 小时视图；06:00 起时，00:00–06:00 默认折叠成顶部一条线，点它即可展开。「吸附粒度」决定拖动卡片和点空格新建时按多长的时间档位对齐，拖动中卡片会实时吸到档位上。</p>
+    <div class="row btns">
+      <button id="btnExport" class="ghost">导出备份 JSON</button>
+      <button id="btnImport" class="ghost">导入备份</button>
+      <button id="btnClear" class="danger">清空全部数据</button>
+      <input id="fileInput" type="file" accept="application/json,.json" hidden>
+    </div>
+    <p class="hint">桌面版数据与悬浮便签共用同一份 JSON（data/store.json）；浏览器模式存本浏览器 localStorage，建议偶尔导出一份。</p>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<!-- 共享存储桥接：必须在 app.js 之前，把 localStorage 接到统一数据源 -->
+<script src="../shared/bridge.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

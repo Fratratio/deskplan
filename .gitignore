@@ -1,0 +1,28 @@
+# 依赖与构建产物
+node_modules/
+release/
+dist/
+out/
+
+# 运行时数据（每个人的待办不一样，不进版本库）
+data/*.json
+data/*.log
+data/*.txt
+data/*.png
+!data/store.example.json
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# npm
+npm-debug.log*
+.npmrc

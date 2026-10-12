@@ -1,0 +1,472 @@
+{
+  "v": 3,
+  "createdAt": 1791628912325,
+  "updatedAt": 1791825183034,
+  "settings": {
+    "skin": "sakura",
+    "edge": "right",
+    "lock": false,
+    "pin": true,
+    "stealth": true,
+    "idle": 70,
+    "blur": 4,
+    "alpha": 100,
+    "grain": 15,
+    "archiveAfter": 10,
+    "draftColor": "dai",
+    "bootLaunch": false,
+    "motion": true,
+    "x": 1302,
+    "y": 282,
+    "font": "kai",
+    "dockTab": "today",
+    "autoDock": true
+  },
+  "notes": {
+    "items": [
+      {
+        "id": "vwtloejrgohx",
+        "text": "鼠标移到屏幕右边，我就滑出来",
+        "note": "",
+        "subs": [],
+        "done": false,
+        "star": true,
+        "color": "dai",
+        "tags": [],
+        "remindAt": null,
+        "createdAt": 1791803369733,
+        "doneAt": null
+      },
+      {
+        "id": "tr4l6ok8gohx",
+        "text": "移开几秒，我贴回边缘，只留一条细线",
+        "note": "",
+        "subs": [],
+        "done": false,
+        "star": false,
+        "color": "tai",
+        "tags": [],
+        "remindAt": null,
+        "createdAt": 1791803368733,
+        "doneAt": null
+      },
+      {
+        "id": "w4de9nvpgohx",
+        "text": "点右边这个箭头，能加备注和子任务",
+        "note": "大事项拆成小步骤，一条备忘就够了。",
+        "subs": [
+          {
+            "id": "g91zn8exgohx",
+            "text": "试试给这条加个子任务",
+            "done": false
+          }
+        ],
+        "done": false,
+        "star": false,
+        "color": "tong",
+        "tags": [],
+        "remindAt": null,
+        "createdAt": 1791803367733,
+        "doneAt": null,
+        "open": true
+      }
+    ],
+    "archived": []
+  },
+  "plan": {
+    "version": 1,
+    "items": [
+      {
+        "id": "ev83197076x",
+        "title": "组会 · 周进度同步",
+        "note": "把这周的三个卡点过一遍",
+        "date": "2026-10-12",
+        "startMin": 540,
+        "dur": 60,
+        "tags": [
+          "#工作"
+        ],
+        "color": "tong",
+        "done": true,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev34809630x",
+        "title": "供应链韧性文献精读",
+        "note": "第三章那节作用机制要做笔记",
+        "date": "2026-10-12",
+        "startMin": 600,
+        "dur": 120,
+        "tags": [
+          "#论文"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev998632787x",
+        "title": "午餐 + 走两圈",
+        "note": "",
+        "date": "2026-10-12",
+        "startMin": 720,
+        "dur": 45,
+        "tags": [],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev97208437x",
+        "title": "和导师确认开题范围",
+        "note": "带上三个候选题目",
+        "date": "2026-10-13",
+        "startMin": 870,
+        "dur": 60,
+        "tags": [
+          "#论文"
+        ],
+        "color": "tong",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev307798664x",
+        "title": "数据采集脚本调试",
+        "note": "",
+        "date": "2026-10-13",
+        "startMin": 960,
+        "dur": 90,
+        "tags": [
+          "#工作"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev249427421x",
+        "title": "健身房",
+        "note": "",
+        "date": "2026-10-13",
+        "startMin": 1140,
+        "dur": 60,
+        "tags": [
+          "#生活"
+        ],
+        "color": "lv",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev471488566x",
+        "title": "组会 · 周进度同步",
+        "note": "",
+        "date": "2026-10-14",
+        "startMin": 540,
+        "dur": 60,
+        "tags": [
+          "#工作"
+        ],
+        "color": "tong",
+        "done": true,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev81486731x",
+        "title": "文献综述初稿 3000 字",
+        "note": "先搭框架再填内容",
+        "date": "2026-10-14",
+        "startMin": 600,
+        "dur": 150,
+        "tags": [
+          "#论文"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev592260526x",
+        "title": "项目周报",
+        "note": "",
+        "date": "2026-10-14",
+        "startMin": 900,
+        "dur": 60,
+        "tags": [
+          "#工作"
+        ],
+        "color": "tong",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev345783349x",
+        "title": "牙医复查",
+        "note": "",
+        "date": "2026-10-14",
+        "startMin": 1080,
+        "dur": 45,
+        "tags": [],
+        "color": "huang",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev794237363x",
+        "title": "组会 · 周进度同步",
+        "note": "",
+        "date": "2026-10-15",
+        "startMin": 540,
+        "dur": 60,
+        "tags": [
+          "#工作"
+        ],
+        "color": "tong",
+        "done": true,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev480420524x",
+        "title": "供应链仿真模型搭框架",
+        "note": "",
+        "date": "2026-10-15",
+        "startMin": 600,
+        "dur": 180,
+        "tags": [
+          "#论文"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev274206454x",
+        "title": "和同门讨论选题",
+        "note": "",
+        "date": "2026-10-15",
+        "startMin": 960,
+        "dur": 60,
+        "tags": [
+          "#论文"
+        ],
+        "color": "tong",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev567189707x",
+        "title": "给爸妈打电话",
+        "note": "",
+        "date": "2026-10-15",
+        "startMin": 1260,
+        "dur": 30,
+        "tags": [],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev872578748x",
+        "title": "组会 · 周进度同步",
+        "note": "",
+        "date": "2026-10-16",
+        "startMin": 540,
+        "dur": 60,
+        "tags": [
+          "#工作"
+        ],
+        "color": "tong",
+        "done": true,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev522691398x",
+        "title": "文献综述初稿 续写",
+        "note": "",
+        "date": "2026-10-16",
+        "startMin": 600,
+        "dur": 150,
+        "tags": [
+          "#论文"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev656563517x",
+        "title": "周计划复盘",
+        "note": "",
+        "date": "2026-10-16",
+        "startMin": 960,
+        "dur": 45,
+        "tags": [
+          "#工作"
+        ],
+        "color": "tong",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev975528494x",
+        "title": "采购生活用品",
+        "note": "",
+        "date": "2026-10-17",
+        "startMin": 660,
+        "dur": 60,
+        "tags": [],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825860544
+      },
+      {
+        "id": "ev534104241x",
+        "title": "看展 · 美术馆",
+        "note": "",
+        "date": "2026-10-18",
+        "startMin": 840,
+        "dur": 150,
+        "tags": [
+          "#生活"
+        ],
+        "color": "lv",
+        "done": false,
+        "createdAt": 1791825860544
+      }
+    ],
+    "todos": [
+      {
+        "id": "shot80454114x",
+        "title": "把这周的项目周报收个尾",
+        "note": "",
+        "tags": [],
+        "color": "dai",
+        "done": true,
+        "createdAt": 1791825700594
+      },
+      {
+        "id": "shot47509677x",
+        "title": "供应链韧性那篇文献读完第三章",
+        "note": "数字化转型对韧性的作用机制那节要重点看",
+        "tags": [
+          "#论文"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825700594
+      },
+      {
+        "id": "shot27022717x",
+        "title": "和导师确认开题范围",
+        "note": "",
+        "tags": [
+          "#论文"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825700594
+      },
+      {
+        "id": "shot37221796x",
+        "title": "健身",
+        "note": "",
+        "tags": [
+          "#生活"
+        ],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825700594
+      },
+      {
+        "id": "shot54310768x",
+        "title": "给爸妈打个电话",
+        "note": "",
+        "tags": [],
+        "color": "dai",
+        "done": false,
+        "createdAt": 1791825700594
+      }
+    ],
+    "settings": {
+      "startHour": 7,
+      "endHour": 24,
+      "hourH": 44,
+      "skin": "mist",
+      "font": "kai",
+      "sideCollapsed": false,
+      "showEarly": false,
+      "snapMin": 15
+    },
+    "cursor": "2026-10-12",
+    "selDay": "2026-10-13",
+    "filterTags": []
+  },
+  "shared": {
+    "skin": "mist",
+    "font": "kai",
+    "motion": true
+  },
+  "ui": {
+    "planBounds": {
+      "x": -8,
+      "y": -8,
+      "width": 1494,
+      "height": 886,
+      "maximized": false
+    },
+    "planSeeded": true
+  },
+  "migratedFrom": "deskmemo/data/memo.json",
+  "items": [
+    {
+      "id": "p0sb0c9ygkpn",
+      "text": "学校任务",
+      "note": "提醒郑杨今天晚上提交毛哥作业",
+      "subs": [],
+      "done": false,
+      "star": false,
+      "color": "dai",
+      "tags": [],
+      "remindAt": null,
+      "createdAt": 1791608529371,
+      "doneAt": null,
+      "open": false
+    },
+    {
+      "id": "vi3h21xcgkpn",
+      "text": "工作",
+      "note": "托管率定线车维护",
+      "subs": [],
+      "done": false,
+      "star": false,
+      "color": "tai",
+      "tags": [],
+      "remindAt": null,
+      "createdAt": 1791608528371,
+      "doneAt": null,
+      "open": true
+    },
+    {
+      "id": "tvh4raengkpn",
+      "text": "回复聊天",
+      "note": "崔灿灿回复\n",
+      "subs": [
+        {
+          "id": "xyt3yvijgkpn",
+          "text": "试试给这条加个子任务",
+          "done": false
+        }
+      ],
+      "done": false,
+      "star": false,
+      "color": "tong",
+      "tags": [],
+      "remindAt": null,
+      "createdAt": 1791608527371,
+      "doneAt": null,
+      "open": false
+    }
+  ],
+  "archived": []
+}

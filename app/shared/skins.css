@@ -1,0 +1,429 @@
+/* ============================================================
+   皮肤 · app/shared/skins.css
+   一套皮肤 = 一组 CSS 自定义属性。挂在 html[data-skin] 与 body[data-skin] 上
+   （两边页面各自的属性宿主不同，双作用域跟字体一样的做法）。
+   切换皮肤只需改这一个属性，颜色、阴影、纹理全部跟着变。
+
+   命名对应 app/shared/store-schema.js 里的 SKINS：
+     rice 宣纸 / mist 青山 / sakura 樱SA / dusk 暮色 / nebula 星野 / forge 熔炉
+
+   写配色的硬要求（浅色皮肤）：正文 --ink 对底色 --bg 至少 7:1，
+   --ink-2 至少 4.5:1，--ink-3 只用于次要装饰。深色皮肤同理反着来。
+   五色在同底色上做 30%~40% 淡填充时必须仍能认出是哪一色。
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. 宣纸 rice — 默认。素白宣底 + 矿物五色
+   ------------------------------------------------------------ */
+html[data-skin="rice"], body[data-skin="rice"] {
+  --bg: #F4F2EE;
+  --panel: #FFFDF9;
+  --panel-2: #FFFFFF;
+  --card-rgb: 250, 247, 242;
+  --bg-a: 0.72;
+  --blur: 26px;
+  --glassa: 0.14;
+  --glass-a: 0.14;
+
+  --line: #E2DCD2;
+  --line-soft: #EDE9E1;
+  --hairline: rgba(44, 42, 39, 0.10);
+  --hairline-2: rgba(44, 42, 39, 0.06);
+  --edge-light: rgba(255, 255, 255, 0.70);
+
+  --ink: #2F3138;
+  --ink-2: #5C616B;
+  --ink-3: #8B9099;
+
+  --field: rgba(255, 255, 255, 0.52);
+  --field-focus: rgba(255, 255, 255, 0.82);
+  --hover: rgba(44, 42, 39, 0.045);
+
+  --accent: #3A6489;
+  --accent-soft: rgba(58, 100, 137, 0.14);
+
+  --weekend: #F1ECE3;
+  --today: #FDF6EA;
+
+  --shadow:
+    0 22px 48px -20px rgba(48, 38, 28, 0.42),
+    0 6px 16px -8px rgba(48, 38, 28, 0.22),
+    0 1px 2px 0 rgba(48, 38, 28, 0.10);
+  --inset: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+
+  --dai: #33587C;
+  --tai: #467A4E;
+  --ou:  #6D4C85;
+  --tong: #8F6432;
+  --zhu: #953F37;
+
+  --grain: 0.035;
+  --tex: none;
+}
+
+/* ------------------------------------------------------------
+   2. 青山 mist — 风景。青绿山岚，石青配苔绿
+   底色带一点冷绿，往下压一层远山的青灰渐变。
+   ------------------------------------------------------------ */
+html[data-skin="mist"], body[data-skin="mist"] {
+  --bg: #EDF2EE;
+  --panel: #F8FBF7;
+  --panel-2: #FFFFFF;
+  --card-rgb: 244, 249, 245;
+  --bg-a: 0.72;
+  --blur: 26px;
+  --glassa: 0.14;
+  --glass-a: 0.14;
+
+  --line: #D3DED4;
+  --line-soft: #E3EBE4;
+  --hairline: rgba(30, 52, 40, 0.11);
+  --hairline-2: rgba(30, 52, 40, 0.06);
+  --edge-light: rgba(255, 255, 255, 0.68);
+
+  --ink: #22302A;
+  --ink-2: #4C5D54;
+  --ink-3: #7C8B83;
+
+  --field: rgba(255, 255, 255, 0.55);
+  --field-focus: rgba(255, 255, 255, 0.85);
+  --hover: rgba(30, 60, 45, 0.055);
+
+  --accent: #2E6B52;
+  --accent-soft: rgba(46, 107, 82, 0.14);
+
+  --weekend: #E3EBE4;
+  --today: #EAF3EA;
+
+  --shadow:
+    0 22px 48px -20px rgba(28, 52, 40, 0.40),
+    0 6px 16px -8px rgba(28, 52, 40, 0.22),
+    0 1px 2px 0 rgba(28, 52, 40, 0.10);
+  --inset: inset 0 1px 0 rgba(255, 255, 255, 0.58);
+
+  --dai: #2C5F6B;   /* 山色偏青，代替石青 */
+  --tai: #3F7A4A;
+  --ou:  #5D6B86;
+  --tong: #8A6A38;
+  --zhu: #9E4A3C;
+
+  --grain: 0.035;
+  /* 三层远山：越靠下越淡，做出雾霭的纵深 */
+  --tex:
+    radial-gradient(120% 60% at 12% 108%, rgba(46, 92, 74, 0.16) 0%, rgba(46, 92, 74, 0) 60%),
+    radial-gradient(90% 46% at 88% 112%, rgba(58, 84, 108, 0.14) 0%, rgba(58, 84, 108, 0) 62%),
+    radial-gradient(150% 70% at 50% 118%, rgba(96, 122, 104, 0.10) 0%, rgba(96, 122, 104, 0) 70%);
+}
+
+/* ------------------------------------------------------------
+   3. 樱SA sakura — 动漫。樱粉淡紫，藕荷配朱砂
+   底色偏粉紫，五色里把苔绿换成嫩绿、藕荷提亮，才不会脏。
+   ------------------------------------------------------------ */
+html[data-skin="sakura"], body[data-skin="sakura"] {
+  --bg: #F6EFF3;
+  --panel: #FDF8FA;
+  --panel-2: #FFFFFF;
+  --card-rgb: 252, 245, 248;
+  --bg-a: 0.74;
+  --blur: 24px;
+  --glassa: 0.16;
+  --glass-a: 0.16;
+
+  --line: #E7D8E0;
+  --line-soft: #F1E6EB;
+  --hairline: rgba(70, 40, 56, 0.10);
+  --hairline-2: rgba(70, 40, 56, 0.06);
+  --edge-light: rgba(255, 255, 255, 0.74);
+
+  --ink: #362A31;
+  --ink-2: #63535C;
+  --ink-3: #94838C;
+
+  --field: rgba(255, 255, 255, 0.58);
+  --field-focus: rgba(255, 255, 255, 0.86);
+  --hover: rgba(120, 60, 90, 0.05);
+
+  --accent: #A6547C;
+  --accent-soft: rgba(166, 84, 124, 0.14);
+
+  --weekend: #F2E7EC;
+  --today: #FBEEF3;
+
+  --shadow:
+    0 22px 48px -20px rgba(84, 48, 66, 0.38),
+    0 6px 16px -8px rgba(84, 48, 66, 0.20),
+    0 1px 2px 0 rgba(84, 48, 66, 0.10);
+  --inset: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+
+  --dai: #4A6486;
+  --tai: #5E8C55;
+  --ou:  #8E5A9E;
+  --tong: #9A7440;
+  --zhu: #B24A5C;
+
+  --grain: 0.03;
+  /* 右上两团樱瓣晕开，左下一层暖白提亮 */
+  --tex:
+    radial-gradient(70% 55% at 88% 6%, rgba(226, 150, 178, 0.22) 0%, rgba(226, 150, 178, 0) 62%),
+    radial-gradient(50% 40% at 8% 96%, rgba(248, 216, 226, 0.34) 0%, rgba(248, 216, 226, 0) 66%),
+    radial-gradient(40% 32% at 30% 18%, rgba(240, 190, 210, 0.16) 0%, rgba(240, 190, 210, 0) 68%);
+}
+
+/* ------------------------------------------------------------
+   4. 暮色 dusk — 深蓝夜色（原来的深色主题）
+   ------------------------------------------------------------ */
+html[data-skin="dusk"], body[data-skin="dusk"] {
+  --bg: #171A1F;
+  --panel: #1E222A;
+  --panel-2: #232833;
+  --card-rgb: 26, 28, 33;
+  --bg-a: 0.86;
+  --blur: 30px;
+  --glass-a: 0.26;
+  --glassa: 0.26;
+
+  --line: #2E3440;
+  --line-soft: #272C36;
+  --hairline: rgba(255, 255, 255, 0.10);
+  --hairline-2: rgba(255, 255, 255, 0.06);
+  --edge-light: rgba(255, 255, 255, 0.13);
+
+  --ink: #E6E8EC;
+  --ink-2: #AFB5BF;
+  --ink-3: #7C838F;
+
+  --field: rgba(255, 255, 255, 0.07);
+  --field-focus: rgba(255, 255, 255, 0.11);
+  --hover: rgba(255, 255, 255, 0.055);
+
+  --accent: #7FA3C4;
+  --accent-soft: rgba(127, 163, 196, 0.18);
+
+  --weekend: #1A1E26;
+  --today: #232129;
+
+  --shadow:
+    0 22px 48px -20px rgba(0, 0, 0, 0.62),
+    0 6px 16px -8px rgba(0, 0, 0, 0.40),
+    0 1px 2px 0 rgba(0, 0, 0, 0.28);
+  --inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  --dai: #86A8C6;
+  --tai: #8FAD83;
+  --ou:  #C79CB8;
+  --tong: #D0974F;
+  --zhu: #D4775F;
+
+  --grain: 0.045;
+  --tex: none;
+}
+
+/* ------------------------------------------------------------
+   5. 星野 nebula — 航天。深空紫蓝 + 星点
+   星点用 repeating-conic 不好控，改成三层radial-gradient 打散，
+   看起来是星光而不是网格。
+   ------------------------------------------------------------ */
+html[data-skin="nebula"], body[data-skin="nebula"] {
+  --bg: #14162A;
+  --panel: #1B1E38;
+  --panel-2: #222545;
+  --card-rgb: 24, 26, 46;
+  --bg-a: 0.86;
+  --blur: 32px;
+  --glass-a: 0.28;
+  --glassa: 0.28;
+
+  --line: #2C3055;
+  --line-soft: #252845;
+  --hairline: rgba(200, 214, 255, 0.11);
+  --hairline-2: rgba(200, 214, 255, 0.06);
+  --edge-light: rgba(190, 205, 255, 0.15);
+
+  --ink: #E8EAFA;
+  --ink-2: #B0B5D8;
+  --ink-3: #7B80A8;
+
+  --field: rgba(190, 205, 255, 0.08);
+  --field-focus: rgba(190, 205, 255, 0.13);
+  --hover: rgba(190, 205, 255, 0.06);
+
+  --accent: #8FA8F0;
+  --accent-soft: rgba(143, 168, 240, 0.18);
+
+  --weekend: #171A32;
+  --today: #241F44;
+
+  --shadow:
+    0 22px 48px -20px rgba(0, 0, 0, 0.70),
+    0 6px 16px -8px rgba(4, 4, 20, 0.45),
+    0 1px 2px 0 rgba(0, 0, 0, 0.32);
+  --inset: inset 0 1px 0 rgba(200, 214, 255, 0.10);
+
+  --dai: #7FB4E8;   /* 星云蓝 */
+  --tai: #6FD6A8;
+  --ou:  #B79BF0;
+  --tong: #E8B45E;
+  --zhu: #F0848C;
+
+  --grain: 0.04;
+  /* 星云两团 + 六层星点（点径 2px、透明度 .7~.9 才看得见，
+     1.4px/50% 在深底上会被吃掉，看着跟没画一样） */
+  --tex:
+    radial-gradient(80% 60% at 18% 8%, rgba(122, 92, 220, 0.26) 0%, rgba(122, 92, 220, 0) 64%),
+    radial-gradient(70% 55% at 92% 88%, rgba(40, 110, 190, 0.24) 0%, rgba(40, 110, 190, 0) 66%),
+    radial-gradient(2px 2px at 22% 32%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 100%),
+    radial-gradient(2px 2px at 68% 18%, rgba(226, 236, 255, 0.75), rgba(226, 236, 255, 0) 100%),
+    radial-gradient(2.4px 2.4px at 84% 62%, rgba(255, 244, 214, 0.80), rgba(255, 244, 214, 0) 100%),
+    radial-gradient(1.6px 1.6px at 44% 82%, rgba(214, 228, 255, 0.70), rgba(214, 228, 255, 0) 100%),
+    radial-gradient(2.2px 2.2px at 12% 64%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 100%),
+    radial-gradient(1.8px 1.8px at 92% 34%, rgba(226, 236, 255, 0.66), rgba(226, 236, 255, 0) 100%);
+}
+
+/* ------------------------------------------------------------
+   6. 熔炉 forge — 游戏。暗铜炭底 + 火色高亮
+   深色但偏暖，五色里铜与朱推上去，看着像余烬。
+   ------------------------------------------------------------ */
+html[data-skin="forge"], body[data-skin="forge"] {
+  --bg: #1C1815;
+  --panel: #24201B;
+  --panel-2: #2B2620;
+  --card-rgb: 31, 27, 23;
+  --bg-a: 0.86;
+  --blur: 28px;
+  --glass-a: 0.26;
+  --glassa: 0.26;
+
+  --line: #3A332B;
+  --line-soft: #322C25;
+  --hairline: rgba(255, 226, 180, 0.10);
+  --hairline-2: rgba(255, 226, 180, 0.055);
+  --edge-light: rgba(255, 214, 160, 0.14);
+
+  --ink: #F0E7DC;
+  --ink-2: #C2B4A4;
+  --ink-3: #91816F;
+
+  --field: rgba(255, 226, 180, 0.07);
+  --field-focus: rgba(255, 226, 180, 0.12);
+  --hover: rgba(255, 214, 160, 0.06);
+
+  --accent: #D98B45;
+  --accent-soft: rgba(217, 139, 69, 0.18);
+
+  --weekend: #201C18;
+  --today: #2C2118;
+
+  --shadow:
+    0 22px 48px -20px rgba(0, 0, 0, 0.68),
+    0 6px 16px -8px rgba(24, 10, 2, 0.48),
+    0 1px 2px 0 rgba(0, 0, 0, 0.34);
+  --inset: inset 0 1px 0 rgba(255, 214, 160, 0.09);
+
+  --dai: #7FA0C4;
+  --tai: #8FBF6A;
+  --ou:  #B294D4;
+  --tong: #E0A44E;
+  --zhu: #E4683E;
+
+  --grain: 0.05;
+  /* 炉火从下方往上烤 */
+  --tex:
+    radial-gradient(100% 62% at 50% 112%, rgba(216, 92, 34, 0.24) 0%, rgba(216, 92, 34, 0) 64%),
+    radial-gradient(60% 40% at 16% 106%, rgba(232, 158, 60, 0.16) 0%, rgba(232, 158, 60, 0) 66%);
+}
+
+/* ------------------------------------------------------------
+   深浅判定：给需要区分深底的 CSS 用
+   ------------------------------------------------------------ */
+html[data-skin="dusk"],  body[data-skin="dusk"],
+html[data-skin="nebula"],body[data-skin="nebula"],
+html[data-skin="forge"], body[data-skin="forge"] { --is-dark: 1; }
+html[data-skin="rice"],  body[data-skin="rice"],
+html[data-skin="mist"],  body[data-skin="mist"],
+html[data-skin="sakura"],body[data-skin="sakura"] { --is-dark: 0; }
+
+/* ------------------------------------------------------------
+   纹理层：--tex 非 none 的皮肤才有
+   挂在界面主体与卡片之上，用 ::before，低透明度叠加，
+   不能盖住文字（z-index 0 + 内容 relative z-index 1）。
+   ------------------------------------------------------------ */
+.card, .sheet, .modal, .layout {
+  position: relative;
+}
+.card::before, .sheet::before, .layout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--tex, none);
+  pointer-events: none;
+  z-index: 0;
+}
+.card > *, .sheet > *, .layout > * { position: relative; z-index: 1; }
+
+/* ------------------------------------------------------------
+   皮肤选择网格（两端共用）
+   悬浮窗设置浮层和周计划页设置弹层用的是同一套类名，
+   所以样式必须放共享层 —— 之前只写在 widget/styles.css，
+   日历里就没有 .skin-grid 的任何定义。
+   色板颜色由渲染端按内联 style 注入（同一时刻要同时显示六套，
+   没法靠逐个切 data-skin 激活），这里只管形状与选中态。
+   ------------------------------------------------------------ */
+.skin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.skin-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  border: 1px solid var(--hairline);
+  background: var(--field);
+  text-align: left;
+  transition: border-color .16s, background .16s;
+  cursor: pointer;
+  /* 悬浮窗设置浮层只有 360px 宽，日历弹层也只有 ~360px：
+     不写 min-width 的话 grid 列会被压到 58px，色板挤成一条细线。
+     允许换行比让它变形好。 */
+  min-width: 96px;
+}
+.skin-chip:hover { background: var(--hover); border-color: var(--ink-3); }
+.skin-chip.is-on { border-color: var(--accent); background: var(--accent-soft); }
+.skin-sw {
+  flex: none;
+  width: 30px; height: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--hairline);
+  background: var(--chip-bg, linear-gradient(135deg, var(--tai) 0 33%, var(--dai) 33% 66%, var(--ou) 66% 100%));
+  box-shadow: inset 0 0 0 2px var(--panel-2);
+}
+.skin-chip.is-on .skin-sw { box-shadow: inset 0 0 0 2px var(--panel-2), 0 0 0 1px var(--accent); }
+.skin-name { font-size: 11.5px; color: var(--ink-2); white-space: nowrap; }
+.skin-chip.is-on .skin-name { color: var(--accent); font-weight: 600; }
+
+/* 字体分段控件：auto-fill 而不是固定 5 列。
+   固定列宽在 360px 的弹层里会把「隶书」挤到第二行，且各列宽度随容器抖动。 */
+.seg { display: grid; grid-template-columns: repeat(auto-fit, minmax(52px, 1fr)); gap: 4px; }
+.seg button {
+  padding: 5px 6px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  background: var(--field);
+  color: var(--ink-2);
+  font-size: 12.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .16s, color .16s, border-color .16s;
+}
+.seg button:hover { background: var(--hover); color: var(--ink); }
+.seg button.is-on {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+  border-color: var(--accent);
+}

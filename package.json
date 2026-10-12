@@ -1,0 +1,114 @@
+{
+  "name": "deskplan",
+  "productName": "桌边 DeskPlan",
+  "version": "2.1.0",
+  "description": "桌边 · DeskPlan —— 桌面悬浮便签 + 周计划时间网格，单一入口、单一数据源",
+  "main": "app/main.js",
+  "scripts": {
+    "start": "electron .",
+    "web": "node serve.js",
+    "selftest": "electron tools/e2e.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win",
+    "dist:all": "electron-builder -mwl"
+  },
+  "author": {
+    "name": "WorkBuddy"
+  },
+  "license": "MIT",
+  "build": {
+    "appId": "workbuddy.deskplan",
+    "productName": "桌边 DeskPlan",
+    "copyright": "Copyright © 2026 WorkBuddy",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "app/**/*",
+      "assets/app.ico",
+      "assets/tray.png",
+      "assets/app.png",
+      "!**/*.map",
+      "!tools/**/*",
+      "!docs/**/*",
+      "!release/**/*",
+      "!data/**/*",
+      "tools/fullscreen-watch.ps1"
+    ],
+    "win": {
+      "icon": "assets/app.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "DeskPlan-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "桌边 DeskPlan",
+      "menuCategory": "桌边 DeskPlan",
+      "installerIcon": "assets/app.ico",
+      "uninstallerIcon": "assets/app.ico",
+      "installerHeaderIcon": "assets/app.ico",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true
+    },
+    "portable": {
+      "artifactName": "DeskPlan-${version}-portable.exe"
+    },
+    "mac": {
+      "icon": "assets/app.png",
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "extendInfo": {
+        "NSHumanReadableCopyright": "Copyright © 2026 WorkBuddy"
+      }
+    },
+    "dmg": {
+      "title": "桌边 DeskPlan ${version}",
+      "icon": "assets/app.png",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "icon": "assets/app.png",
+      "category": "Office",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

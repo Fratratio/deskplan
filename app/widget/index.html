@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>桌边 DeskPlan · 悬浮窗</title>
+<!-- 共享视觉令牌必须在业务样式之前加载：两边唯一的配色/字体来源 -->
+<link rel="stylesheet" href="../shared/theme-tokens.css" />
+<link rel="stylesheet" href="../shared/skins.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-skin="rice" data-mode="full" data-edge="right" data-tab="today">
+
+  <!-- 收缩态：贴在屏幕边缘的窄悬浮条（今日待办数量 + 快速新增 + 放大） -->
+  <div class="bar" id="bar">
+    <button class="bar-btn" id="barAdd" title="快速新增" aria-label="快速新增">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.4v9.2M3.4 8h9.2"/></svg>
+    </button>
+    <div class="bar-mid">
+      <b id="barNum">0</b>
+      <span>今日<br>待办</span>
+    </div>
+    <button class="bar-btn" id="barOpen" title="打开完整周计划" aria-label="打开完整周计划">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.6 3.6 11 8l-4.4 4.4"/></svg>
+    </button>
+  </div>
+
+  <main class="card" id="card">
+
+    <!-- 顶部握把 -->
+    <header class="grip" id="grip">
+      <div class="grip-left">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="title">桌边</span>
+        <span class="pending" id="pendingChip"></span>
+      </div>
+      <div class="grip-right">
+        <button class="ghost-btn" id="lockBtn" title="常驻展开" aria-label="常驻展开">
+          <svg viewBox="0 0 16 16"><path d="M5 7V5.2a3 3 0 0 1 6 0V7"/><rect x="4" y="7" width="8" height="5.5" rx="1.4"/></svg>
+        </button>
+        <span class="date" id="dateLabel"></span>
+        <button class="ghost-btn" id="menuBtn" title="设置与更多" aria-label="设置">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="3.4" r="1.15"/><circle cx="8" cy="8" r="1.15"/><circle cx="8" cy="12.6" r="1.15"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 两个标签：备忘（原便签） / 今日（今日待办与快速排期） -->
+    <nav class="tabs" id="tabs" role="tablist">
+      <button class="tab" data-tab="notes" role="tab">备忘</button>
+      <button class="tab" data-tab="today" role="tab">今日</button>
+      <span class="tab-note" id="tabNote"></span>
+      <button class="ghost-btn tab-open" id="expandBtn" title="打开完整周计划（放大）" aria-label="放大到完整周计划">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.6 3.6 11 8l-4.4 4.4"/></svg>
+      </button>
+    </nav>
+
+    <div class="panes">
+
+    <!-- ===== 标签一：备忘 ===== -->
+    <section class="pane" id="paneNotes">
+
+    <!-- 输入区 -->
+    <section class="composer">
+      <span class="composer-bar" id="composerBar"></span>
+      <textarea id="input" rows="1" placeholder="记点什么…  ! 重要   #标签" spellcheck="false"></textarea>
+      <div class="composer-foot">
+        <div class="swatches" id="swatches" aria-label="备忘颜色"></div>
+        <span class="hint"><kbd>Enter</kbd> 保存</span>
+      </div>
+    </section>
+
+    <!-- 主列表 -->
+    <section class="list-wrap" id="listWrap">
+      <ul class="list" id="list"></ul>
+      <div class="empty" id="empty">
+        <p>桌面干净得像刚擦过</p>
+        <span>想到什么就往上面敲，回车即存</span>
+      </div>
+    </section>
+
+    <!-- 已完成（折叠） -->
+    <section class="done-zone" id="doneZone" hidden>
+      <button class="done-head" id="doneHead">
+        <span id="doneCount">已完成 0</span>
+        <span class="caret" aria-hidden="true"></span>
+      </button>
+      <ul class="list is-done" id="doneList"></ul>
+    </section>
+
+    </section><!-- /paneNotes -->
+
+    <!-- ===== 标签二：今日 ===== -->
+    <section class="pane" id="paneToday" hidden>
+      <div class="today-head">
+        <span class="today-date" id="todayDate"></span>
+        <span class="today-sum" id="todaySum"></span>
+      </div>
+      <div class="today-add">
+        <input id="todayInput" placeholder="加一条今日待办，回车即可（可用 #标签）" maxlength="80" spellcheck="false">
+        <button id="todayAdd" title="添加">＋</button>
+      </div>
+      <div class="today-scroll">
+        <div class="today-sec">
+          <div class="sec-title">今日日程 <span id="secPlanCount"></span></div>
+          <ul class="today-list" id="todayPlanList"></ul>
+        </div>
+        <div class="today-sec">
+          <div class="sec-title">待办 <span id="secTodoCount"></span></div>
+          <ul class="today-list" id="todayTodoList"></ul>
+        </div>
+      </div>
+      <p class="today-empty muted" id="todayEmpty" hidden>今天还没有安排，上面加一条。</p>
+    </section>
+
+    </div><!-- /panes -->
+
+    <!-- 底部：周计划入口（放大）+ 归档/清理 -->
+    <footer class="foot">
+      <span class="tip" id="footTip"></span>
+      <button class="plan-entry" id="planBtn" title="放大：打开完整周计划（Ctrl+Shift+W）">
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <rect x="2" y="2.5" width="12" height="11" rx="2"/>
+          <path d="M2 6.5h12M6 6.5v7M10.5 6.5v7"/>
+        </svg>
+        <span id="planTip">周计划</span>
+      </button>
+      <div class="foot-acts">
+        <button class="link-btn" id="archiveBtn" hidden>归档</button>
+        <button class="link-btn" id="clearDone" hidden>清理已完成</button>
+      </div>
+    </footer>
+
+    <!-- 设置浮层 -->
+    <div class="sheet" id="sheet" hidden>
+      <div class="sheet-scroll">
+        <div class="sheet-row sheet-row-skin">
+          <span class="sheet-label">皮肤</span>
+          <div class="skin-grid" id="skinGrid"><!-- 由 renderer 按 SKINS 清单渲染 --></div>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">字体</span>
+          <div class="seg" id="fontSeg">
+            <button data-font="sans">默认</button>
+            <button data-font="kai">楷体</button>
+            <button data-font="xing">行楷</button>
+            <button data-font="li">隶书</button>
+            <button data-font="fang">仿宋</button>
+          </div>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">贴边</span>
+          <div class="seg" id="edgeSeg">
+            <button data-edge="right">右</button>
+            <button data-edge="left">左</button>
+          </div>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">常驻展开</span>
+          <button class="switch" id="lockSw" role="switch"><i></i></button>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">常驻最前</span>
+          <button class="switch" id="pinSw" role="switch"><i></i></button>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">全屏时隐身</span>
+          <button class="switch" id="stealthSw" role="switch"><i></i></button>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">开机启动</span>
+          <button class="switch" id="bootSw" role="switch"><i></i></button>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">过渡动效</span>
+          <button class="switch" id="motionSw" role="switch"><i></i></button>
+        </div>
+
+        <div class="sheet-div">质感</div>
+        <div class="sheet-row">
+          <span class="sheet-label">毛玻璃</span>
+          <input type="range" id="blurRange" min="0" max="44" step="2" title="0 为关闭" />
+          <span class="sheet-val" id="blurVal"></span>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">不透明度</span>
+          <input type="range" id="alphaRange" min="20" max="100" step="5" />
+          <span class="sheet-val" id="alphaVal"></span>
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">纸张噪点</span>
+          <input type="range" id="grainRange" min="0" max="100" step="5" title="0 为关闭" />
+          <span class="sheet-val" id="grainVal"></span>
+        </div>
+
+        <div class="sheet-div">整理</div>
+        <div class="sheet-row">
+          <span class="sheet-label">闲置淡化</span>
+          <input type="range" id="idleRange" min="20" max="100" step="5" />
+        </div>
+        <div class="sheet-row">
+          <span class="sheet-label">完成后归档</span>
+          <div class="seg" id="archiveSeg">
+            <button data-min="10">10 分钟</button>
+            <button data-min="60">1 小时</button>
+            <button data-min="0">手动</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet-actions">
+        <button class="link-btn" id="exportBtn">导出备份</button>
+        <button class="link-btn danger" id="quitBtn">退出</button>
+      </div>
+      <div class="sheet-note" id="sheetNote"></div>
+    </div>
+
+    <!-- 提醒浮层 -->
+    <div class="sheet remind" id="remindSheet" hidden>
+      <div class="sheet-title">什么时候提醒你</div>
+      <div class="chips" id="remindChips"></div>
+      <div class="remind-custom">
+        <input type="datetime-local" id="remindInput" />
+        <button class="link-btn" id="remindSet">设定</button>
+      </div>
+      <button class="link-btn danger" id="remindClear">清除提醒</button>
+    </div>
+
+    <!-- 归档浮层 -->
+    <div class="sheet archive" id="archiveSheet" hidden>
+      <div class="sheet-title">归档 <span id="archiveCount"></span></div>
+      <ul class="list is-archive" id="archiveList"></ul>
+      <div class="sheet-actions">
+        <button class="link-btn" id="archiveClear">清空归档</button>
+        <button class="link-btn" id="archiveClose">收起</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+  </main>
+
+  <script src="motion.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>
